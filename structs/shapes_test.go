@@ -3,50 +3,39 @@ package shapes
 import "testing"
 
 func TestPerimeter(t *testing.T) {
-	t.Run("perimeter for rectangle", func(t *testing.T) {
-		rectangle := Rectangle{12.0, 6.0}
-		got := rectangle.Perimeter()
-		expected := 36.0
+	perimeterTests := []struct {
+		shape    Shape
+		expected float64
+	}{
+		{Rectangle{12.0, 6.0}, 36.0},
+		{Circle{10.0}, 62.83185307179586},
+	}
 
-		if got != expected {
-			t.Errorf("expected %.2f but got %.2f", expected, got)
+	for _, test := range perimeterTests {
+		got := test.shape.Perimeter()
+
+		if got != test.expected {
+			t.Errorf("expected %g but got %g", test.expected, got)
 		}
-	})
-
-	t.Run("perimeter for circle", func(t *testing.T) {
-		circle := Circle{10.0}
-		got := circle.Perimeter()
-		expected := 62.83185307179586
-
-		if got != expected {
-			t.Errorf("expected %g but got %g", expected, got)
-		}
-	})
+	}
 }
 
 func TestArea(t *testing.T) {
 
-	checkArea := func(t testing.TB, shape Shape, expected float64) {
-		t.Helper()
+	areaTests := []struct {
+		shape    Shape
+		expected float64
+	}{
+		{Rectangle{12.0, 6.0}, 72.0},
+		{Circle{10.0}, 314.1592653589793},
+	}
 
-		got := shape.Area()
+	for _, test := range areaTests {
+		got := test.shape.Area()
 
-		if got != expected {
-			t.Errorf("expected %.2f but got %.2f", expected, got)
+		if got != test.expected {
+			t.Errorf("expected %g but got %g", test.expected, got)
 		}
 	}
 
-	t.Run("area for rectangle", func(t *testing.T) {
-		rectangle := Rectangle{12.0, 6.0}
-		expected := 72.0
-
-		checkArea(t, rectangle, expected)
-	})
-
-	t.Run("area for circle", func(t *testing.T) {
-		circle := Circle{10}
-		expected := 314.1592653589793
-
-		checkArea(t, circle, expected)
-	})
 }
